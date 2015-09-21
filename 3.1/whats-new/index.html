@@ -333,7 +333,7 @@
     <li class="toctree-l2">
     <a href="/mongo-java-driver/3.1/whats-new/upgrading/">
         <i class='fa fa-wrench'></i>
-        Upgrading to 3.0
+        Upgrading to 3.1
     </a>
   </li>
 
@@ -1787,25 +1787,25 @@
 
 
 
-<h1 id="what-s-new-in-3-0">What&rsquo;s New in 3.0</h1>
+<h1 id="what-s-new-in-3-1">What&rsquo;s New in 3.1</h1>
 
-<p>Key features of the 3.0 driver include:</p>
+<p>Key new features of the 3.1 driver include:</p>
 
 <ul>
-<li>A generic <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/MongoCollection.html
-"><code>MongoCollection</code></a> interface that complies with a new cross-driver
-<a href="https://github.com/mongodb/specifications/blob/master/source/crud/crud.rst">CRUD specification</a>.</li>
-<li>A new <a href="https://github.com/mongodb/mongo-java-driver/tree/master/driver-async">asynchronous API</a> that can leverage either
-<a href="http://netty.io/">Netty</a> or Java 7&rsquo;s
-<a href="http://docs.oracle .com/javase/7/docs/api/java/nio/channels/AsynchronousSocketChannel.html">AsynchronousSocketChannel</a></li>
-<li>A new <a href="/mongo-java-driver/3.1/bson/codecs/">Codec</a> infrastructure that you can use to build high-performance
-encoders and decoders without requiring an intermediate Map instance.</li>
-<li>A new core driver on top of which you can build alternative or experimental driver APIs</li>
+<li>Builder support for <a href="/mongo-java-driver/3.1/builders/updates/">updates</a></li>
+<li>Builder support for <a href="/mongo-java-driver/3.1/builders/aggregation/">aggregation stages and accumulators</a></li>
+<li>Builder support for <a href="/mongo-java-driver/3.1/builders/filters/#geospatial">geospatial query filters</a></li>
+<li>Builder support for <a href="/mongo-java-driver/3.1/builders/indexes/">index keys</a></li>
+<li>A new <a href="/mongo-java-driver/3.1/driver/reference/gridfs/">GridFS API</a> that is compatible with the CRUD API introduced in the 3.0
+driver release
+(not yet available in the async driver)</li>
+<li>An <a href="/mongo-java-driver/3.1/driver/reference/management/monitoring/#command-monitoring">event-based API</a> for monitoring all commands that the
+driver sends to a MongoDB server and all responses received (not yet available in the async driver)</li>
 </ul>
 
 <h2 id="upgrading">Upgrading</h2>
 
-<p>See the <a href="/mongo-java-driver/3.1/whats-new/upgrading/">upgrading guide</a> on how to upgrade to 3.0</p>
+<p>See the <a href="/mongo-java-driver/3.1/whats-new/upgrading/">upgrading guide</a> on how to upgrade to 3.1</p>
 
 
 
@@ -1827,7 +1827,7 @@ encoders and decoders without requiring an intermediate Map instance.</li>
     <span class="toc-header">On this page</span>
     <nav id="TableOfContents">
 <ul>
-<li><a href="#what-s-new-in-3-0">What&rsquo;s New in 3.0</a>
+<li><a href="#what-s-new-in-3-1">What&rsquo;s New in 3.1</a>
 <ul>
 <li><a href="#upgrading">Upgrading</a></li>
 </ul></li>

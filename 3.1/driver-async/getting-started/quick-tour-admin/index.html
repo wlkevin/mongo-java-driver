@@ -881,7 +881,7 @@
     <li class="toctree-l2">
     <a href="/mongo-java-driver/3.1/whats-new/upgrading/">
         <i class='fa fa-wrench'></i>
-        Upgrading to 3.0
+        Upgrading to 3.1
     </a>
   </li>
 
@@ -2557,7 +2557,8 @@ Highest scoring document: { &quot;_id&quot; : 1, &quot;content&quot; : &quot;add
 
 <p>While not all commands have a specific helper, however you can run any <a href="http://docs.mongodb.org/manual//reference/command
 ">command</a>
-by using the <a href="http://api.mongodb.org/java/3.0/?com/mongodb/async/client/MongoDatabase.html#runCommand-org.bson.conversions.Bson-com.mongodb.ReadPreference-com.mongodb.async.SingleResultCallback-"><code>runCommand()</code></a> method.  Here we call the <a href="{{ docsref &quot;reference/command/buildInfo&quot; }}">buildInfo</a> command:</p>
+by using the <a href="http://api.mongodb.org/java/3.1/?com/mongodb/async/client/MongoDatabase.html#runCommand-org.bson.conversions.Bson-com.mongodb.ReadPreference-com.mongodb.async.SingleResultCallback-"><code>runCommand()</code></a>
+method.  Here we call the <a href="{{ docsref &quot;reference/command/buildInfo&quot; }}">buildInfo</a> command:</p>
 
 <pre><code class="language-java">database.runCommand(new Document(&quot;buildInfo&quot;, 1), new SingleResultCallback&lt;Document&gt;() {
     @Override

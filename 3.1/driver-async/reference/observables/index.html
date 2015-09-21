@@ -1164,7 +1164,7 @@
     <li class="toctree-l2">
     <a href="/mongo-java-driver/3.1/whats-new/upgrading/">
         <i class='fa fa-wrench'></i>
-        Upgrading to 3.0
+        Upgrading to 3.1
     </a>
   </li>
 
@@ -2646,7 +2646,7 @@
 
 <p><div class="admonition note">
 <h5 class="admonition-title">Note</h5>
-<p>The interfaces are the similar to <code>Publisher</code>, <code>Subscription</code> and <code>Subscriber</code> interfaces from the <a href="http://www.reactive-streams.org/">reactive streams</a> JVM implementation.  However, we prefer the name <code>Observerable</code> to <code>Publisher</code> and <code>Observer</code> to <code>Subscriber</code> for readability purposes.</p>
+<p>The interfaces are similar to <code>Publisher</code>, <code>Subscription</code> and <code>Subscriber</code> interfaces from the <a href="http://www.reactive-streams.org/">reactive streams</a> JVM implementation.  However, we prefer the name <code>Observerable</code> to <code>Publisher</code> and <code>Observer</code> to <code>Subscriber</code> for readability purposes.</p>
 
 </div>
 </p>
@@ -2665,7 +2665,7 @@
 
 <p>An <a href="http://api.mongodb.org/java/3.1/?com/mongodb/async/client/Observer.html
 "><code>Observer</code></a> provides the mechanism for receiving push-based notifications from the <code>Observable</code>.  Demand for these events is signalled by its <code>Subscription</code>. On subscription to an <code>Observable</code> the <code>Observer</code> will be passed the <code>Subscription</code> via the <code>onSubscribe(Subscription subscription)</code>.
-Demand for results is signaled via the <code>Subscription</code> and any results are passed to the <code>onNext(TResult result)</code> method.  If there is an error for any reason the <code>onError(Throwable e)</code> will be called and no more events passed to the <code>Observer</code>. Alternatively, when the <code>Observer</code> has consumed all the results from the <code>Observable</code> the <code>onComplete()</code> method is called.</p>
+Demand for results is signaled via the <code>Subscription</code> and any results are passed to the <code>onNext(TResult result)</code> method.  If there is an error for any reason the <code>onError(Throwable e)</code> will be called and no more events passed to the <code>Observer</code>. Alternatively, when the <code>Observer</code> has consumed all the results from the <code>Observable</code> the <code>onComplete()</code> method will be called.</p>
 
 <h2 id="wrapping-a-mongoiterable">Wrapping a MongoIterable</h2>
 

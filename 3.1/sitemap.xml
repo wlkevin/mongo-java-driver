@@ -23,17 +23,17 @@
   </url>
   
   <url>
-    <loc>/mongo-java-driver/3.1/bson/extended-json/</loc>
-    <lastmod>2015-03-19T14:27:51-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/mongo-java-driver/3.1/bson/documents/</loc>
     <lastmod>2015-03-19T14:27:51-04:00</lastmod>
   </url>
   
   <url>
     <loc>/mongo-java-driver/3.1/bson/codecs/</loc>
+    <lastmod>2015-03-19T14:27:51-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/mongo-java-driver/3.1/bson/extended-json/</loc>
     <lastmod>2015-03-19T14:27:51-04:00</lastmod>
   </url>
   
@@ -48,22 +48,22 @@
   </url>
   
   <url>
-    <loc>/mongo-java-driver/3.1/builders/projections/</loc>
-    <lastmod>2015-03-19T14:27:51-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/mongo-java-driver/3.1/builders/aggregation/</loc>
     <lastmod>2015-03-19T14:27:51-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/mongo-java-driver/3.1/builders/updates/</loc>
+    <loc>/mongo-java-driver/3.1/builders/sorts/</loc>
     <lastmod>2015-03-19T14:27:51-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/mongo-java-driver/3.1/builders/sorts/</loc>
+    <loc>/mongo-java-driver/3.1/builders/projections/</loc>
+    <lastmod>2015-03-19T14:27:51-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/mongo-java-driver/3.1/builders/updates/</loc>
     <lastmod>2015-03-19T14:27:51-04:00</lastmod>
   </url>
   
@@ -183,17 +183,17 @@
   </url>
   
   <url>
+    <loc>/mongo-java-driver/3.1/driver/getting-started/installation-guide/</loc>
+    <lastmod>2015-03-17T15:36:56+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/mongo-java-driver/3.1/driver/getting-started/quick-tour-admin/</loc>
     <lastmod>2015-03-17T15:36:56+00:00</lastmod>
   </url>
   
   <url>
     <loc>/mongo-java-driver/3.1/driver/</loc>
-    <lastmod>2015-03-17T15:36:56+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/mongo-java-driver/3.1/driver/getting-started/installation-guide/</loc>
     <lastmod>2015-03-17T15:36:56+00:00</lastmod>
   </url>
   
@@ -218,7 +218,7 @@
   </url>
   
   <url>
-    <loc>/mongo-java-driver/3.1/driver-async/getting-started/quick-tour-admin/</loc>
+    <loc>/mongo-java-driver/3.1/driver-async/</loc>
     <lastmod>2015-03-17T15:36:56+00:00</lastmod>
   </url>
   
@@ -228,7 +228,7 @@
   </url>
   
   <url>
-    <loc>/mongo-java-driver/3.1/driver-async/</loc>
+    <loc>/mongo-java-driver/3.1/driver-async/getting-started/quick-tour-admin/</loc>
     <lastmod>2015-03-17T15:36:56+00:00</lastmod>
   </url>
   

@@ -608,37 +608,23 @@ BSON is short for Binary &lt;a href=&#34;http://json.org/&#34;&gt;JSON&lt;/a&gt;
     &amp;lt;dependency&amp;gt;
         &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/groupId&amp;gt;
         &amp;lt;artifactId&amp;gt;bson&amp;lt;/artifactId&amp;gt;
-        &amp;lt;version&amp;gt;3.1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+        &amp;lt;version&amp;gt;3.1.0-rc0&amp;lt;/version&amp;gt;
     &amp;lt;/dependency&amp;gt;
 &amp;lt;/dependencies&amp;gt;
-&amp;lt;repositories&amp;gt;
-    &amp;lt;repository&amp;gt;
-        &amp;lt;id&amp;gt;sonatype-snapshots&amp;lt;/id&amp;gt;
-        &amp;lt;name&amp;gt;Sontatype Snapshots&amp;lt;/name&amp;gt;
-        &amp;lt;url&amp;gt;https://oss.sonatype.org/content/repositories/snapshots&amp;lt;/url&amp;gt;
-        &amp;lt;snapshots&amp;gt;
-            &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
-        &amp;lt;/snapshots&amp;gt;
-    &amp;lt;/repository&amp;gt;
-&amp;lt;/repositories&amp;gt;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;gradle hidden&#34;&gt;
 &lt;pre&gt;&lt;code&gt;
   dependencies {
-      compile &#39;org.mongodb:bson:3.1.0-SNAPSHOT&#39;
-  }
-  repositories {
-    maven {
-      url &#39;https://oss.sonatype.org/content/repositories/snapshots&#39;
-    }
+      compile &#39;org.mongodb:bson:3.1.0-rc0&#39;
   }
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;downloadInfo small&#34;&gt;
     &lt;p&gt;You can also download the jars
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/bson/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/bson/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
         from sonatype.&lt;/a&gt;&lt;/p&gt;
     
 &lt;/section&gt;

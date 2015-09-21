@@ -39,7 +39,7 @@
 
 &lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
 &lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
-&lt;p&gt;The interfaces are the similar to &lt;code&gt;Publisher&lt;/code&gt;, &lt;code&gt;Subscription&lt;/code&gt; and &lt;code&gt;Subscriber&lt;/code&gt; interfaces from the &lt;a href=&#34;http://www.reactive-streams.org/&#34;&gt;reactive streams&lt;/a&gt; JVM implementation.  However, we prefer the name &lt;code&gt;Observerable&lt;/code&gt; to &lt;code&gt;Publisher&lt;/code&gt; and &lt;code&gt;Observer&lt;/code&gt; to &lt;code&gt;Subscriber&lt;/code&gt; for readability purposes.&lt;/p&gt;
+&lt;p&gt;The interfaces are similar to &lt;code&gt;Publisher&lt;/code&gt;, &lt;code&gt;Subscription&lt;/code&gt; and &lt;code&gt;Subscriber&lt;/code&gt; interfaces from the &lt;a href=&#34;http://www.reactive-streams.org/&#34;&gt;reactive streams&lt;/a&gt; JVM implementation.  However, we prefer the name &lt;code&gt;Observerable&lt;/code&gt; to &lt;code&gt;Publisher&lt;/code&gt; and &lt;code&gt;Observer&lt;/code&gt; to &lt;code&gt;Subscriber&lt;/code&gt; for readability purposes.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/p&gt;
@@ -58,7 +58,7 @@
 
 &lt;p&gt;An &lt;a href=&#34;http://api.mongodb.org/java/3.1/?com/mongodb/async/client/Observer.html
 &#34;&gt;&lt;code&gt;Observer&lt;/code&gt;&lt;/a&gt; provides the mechanism for receiving push-based notifications from the &lt;code&gt;Observable&lt;/code&gt;.  Demand for these events is signalled by its &lt;code&gt;Subscription&lt;/code&gt;. On subscription to an &lt;code&gt;Observable&lt;/code&gt; the &lt;code&gt;Observer&lt;/code&gt; will be passed the &lt;code&gt;Subscription&lt;/code&gt; via the &lt;code&gt;onSubscribe(Subscription subscription)&lt;/code&gt;.
-Demand for results is signaled via the &lt;code&gt;Subscription&lt;/code&gt; and any results are passed to the &lt;code&gt;onNext(TResult result)&lt;/code&gt; method.  If there is an error for any reason the &lt;code&gt;onError(Throwable e)&lt;/code&gt; will be called and no more events passed to the &lt;code&gt;Observer&lt;/code&gt;. Alternatively, when the &lt;code&gt;Observer&lt;/code&gt; has consumed all the results from the &lt;code&gt;Observable&lt;/code&gt; the &lt;code&gt;onComplete()&lt;/code&gt; method is called.&lt;/p&gt;
+Demand for results is signaled via the &lt;code&gt;Subscription&lt;/code&gt; and any results are passed to the &lt;code&gt;onNext(TResult result)&lt;/code&gt; method.  If there is an error for any reason the &lt;code&gt;onError(Throwable e)&lt;/code&gt; will be called and no more events passed to the &lt;code&gt;Observer&lt;/code&gt;. Alternatively, when the &lt;code&gt;Observer&lt;/code&gt; has consumed all the results from the &lt;code&gt;Observable&lt;/code&gt; the &lt;code&gt;onComplete()&lt;/code&gt; method will be called.&lt;/p&gt;
 
 &lt;h2 id=&#34;wrapping-a-mongoiterable&#34;&gt;Wrapping a MongoIterable&lt;/h2&gt;
 
@@ -748,7 +748,8 @@ deprecated as of the 3.1 driver release.&lt;/p&gt;
 application or end user to monitor various aspects of the driver.&lt;/p&gt;
 
 &lt;p&gt;The driver creates MXBean instances of a single type:
-&lt;a href=&#34;http://api.mongodb.org/java/3.0/com/mongodb/management/ConnectionPoolStatisticsMBean.html&#34;&gt;ConnectionPoolStatisticsMBean&lt;/a&gt;.
+&lt;a href=&#34;http://api.mongodb.org/java/3.1/?com/mongodb/management/ConnectionPoolStatisticsMBean.html
+&#34;&gt;ConnectionPoolStatisticsMBean&lt;/a&gt;.
  The driver registers one &lt;code&gt;ConnectionPoolStatisticsMBean&lt;/code&gt; instance per each server it connects to. For example, in the case of a replica
  set, the driver creates an instance per each non-hidden member of the replica set.&lt;/p&gt;
 
@@ -1109,7 +1110,8 @@ Highest scoring document: { &amp;quot;_id&amp;quot; : 1, &amp;quot;content&amp;q
 
 &lt;p&gt;While not all commands have a specific helper, however you can run any &lt;a href=&#34;http://docs.mongodb.org/manual//reference/command
 &#34;&gt;command&lt;/a&gt;
-by using the &lt;a href=&#34;http://api.mongodb.org/java/3.0/?com/mongodb/async/client/MongoDatabase.html#runCommand-org.bson.conversions.Bson-com.mongodb.ReadPreference-com.mongodb.async.SingleResultCallback-&#34;&gt;&lt;code&gt;runCommand()&lt;/code&gt;&lt;/a&gt; method.  Here we call the &lt;a href=&#34;{{ docsref &amp;quot;reference/command/buildInfo&amp;quot; }}&#34;&gt;buildInfo&lt;/a&gt; command:&lt;/p&gt;
+by using the &lt;a href=&#34;http://api.mongodb.org/java/3.1/?com/mongodb/async/client/MongoDatabase.html#runCommand-org.bson.conversions.Bson-com.mongodb.ReadPreference-com.mongodb.async.SingleResultCallback-&#34;&gt;&lt;code&gt;runCommand()&lt;/code&gt;&lt;/a&gt;
+method.  Here we call the &lt;a href=&#34;{{ docsref &amp;quot;reference/command/buildInfo&amp;quot; }}&#34;&gt;buildInfo&lt;/a&gt; command:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;database.runCommand(new Document(&amp;quot;buildInfo&amp;quot;, 1), new SingleResultCallback&amp;lt;Document&amp;gt;() {
     @Override
@@ -1178,43 +1180,29 @@ by using the &lt;a href=&#34;http://api.mongodb.org/java/3.0/?com/mongodb/async/
     &amp;lt;dependency&amp;gt;
         &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/groupId&amp;gt;
         &amp;lt;artifactId&amp;gt;mongodb-driver-async&amp;lt;/artifactId&amp;gt;
-        &amp;lt;version&amp;gt;3.1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+        &amp;lt;version&amp;gt;3.1.0-rc0&amp;lt;/version&amp;gt;
     &amp;lt;/dependency&amp;gt;
 &amp;lt;/dependencies&amp;gt;
-&amp;lt;repositories&amp;gt;
-    &amp;lt;repository&amp;gt;
-        &amp;lt;id&amp;gt;sonatype-snapshots&amp;lt;/id&amp;gt;
-        &amp;lt;name&amp;gt;Sontatype Snapshots&amp;lt;/name&amp;gt;
-        &amp;lt;url&amp;gt;https://oss.sonatype.org/content/repositories/snapshots&amp;lt;/url&amp;gt;
-        &amp;lt;snapshots&amp;gt;
-            &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
-        &amp;lt;/snapshots&amp;gt;
-    &amp;lt;/repository&amp;gt;
-&amp;lt;/repositories&amp;gt;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;gradle hidden&#34;&gt;
 &lt;pre&gt;&lt;code&gt;
   dependencies {
-      compile &#39;org.mongodb:mongodb-driver-async:3.1.0-SNAPSHOT&#39;
-  }
-  repositories {
-    maven {
-      url &#39;https://oss.sonatype.org/content/repositories/snapshots&#39;
-    }
+      compile &#39;org.mongodb:mongodb-driver-async:3.1.0-rc0&#39;
   }
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;downloadInfo small&#34;&gt;
     &lt;p&gt;You can also download the jars
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/mongodb-driver-async/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/mongodb-driver-async/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
         from sonatype.&lt;/a&gt;&lt;/p&gt;
     
     &lt;p&gt;
         &lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;mongodb-driver-async&lt;/code&gt; requires the following dependencies:
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/bson/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;bson&lt;/code&gt;&lt;/a&gt; and
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/mongodb-driver-core/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;mongodb-driver-core&lt;/code&gt;&lt;/a&gt;
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/bson/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;bson&lt;/code&gt;&lt;/a&gt; and
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/mongodb-driver-core/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;mongodb-driver-core&lt;/code&gt;&lt;/a&gt;
     &lt;/p&gt;
     
 &lt;/section&gt;
@@ -1773,7 +1761,7 @@ collection.bulkWrite(
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 
 &lt;p&gt;The reference documentation for the Java driver focuses on high-level documentation and use-cases. The Javadoc-generated API reference is
-&lt;a href=&#34;http://api.mongodb.org/java/3.0/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;http://api.mongodb.org/java/3.1/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;/mongo-java-driver/3.1/mongo-java-driver/3.1/driver-async/reference/connecting/&#34;&gt;Connecting&lt;/a&gt;: Documentation of the driver&amp;rsquo;s support for connecting to MongoDB servers&lt;/li&gt;

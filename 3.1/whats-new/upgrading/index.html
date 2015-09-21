@@ -9,7 +9,7 @@
 
     <link rel="shortcut icon" href="/mongo-java-driver/3.1/img/favicon.png">
 
-    <title>Upgrading to 3.0</title>
+    <title>Upgrading to 3.1</title>
 
     <link rel="stylesheet" href="/mongo-java-driver/3.1/lib/bootstrap.css" type="text/css" />
 <link rel="stylesheet" href="/mongo-java-driver/3.1/lib/font-awesome/css/font-awesome.min.css" type="text/css" />
@@ -369,7 +369,7 @@
     <li class="toctree-l2">
     <a href="/mongo-java-driver/3.1/whats-new/upgrading/">
         <i class='fa fa-wrench'></i>
-        Upgrading to 3.0
+        Upgrading to 3.1
     </a>
   </li>
 
@@ -1816,19 +1816,25 @@
   
   
   <li><a href="/mongo-java-driver/3.1/whats-new/">What&#39;s New</a> <i class="fa fa-angle-right"></i></li>
-  <li>Upgrading to 3.0</li>
+  <li>Upgrading to 3.1</li>
 </ul>
 </div>
 
 
 
 
-<h1 id="upgrading-to-3-0">Upgrading to 3.0</h1>
+<h1 id="upgrading-from-3-0-x">Upgrading from 3.0.x</h1>
 
-<p>The 3.0 release is <strong>incompatible</strong> with the 2.x release series. However, where possible, the 2.13.0 driver has deprecated classes or
-methods that have been removed in 3.0.</p>
+<p>The 3.1 release is binary and source compatible with the 3.0 release, with the following exceptions:</p>
 
-<p>Before upgrading to 3.0, compile against 2.13.0 with deprecation warnings enabled and remove use of any deprecated methods or classes.</p>
+<ul>
+<li>Other than BsonDocument, subclasses of BsonValue no longer implement Serializable</li>
+<li>BsonDocumentWrapper and RawBsonDocument are now final</li>
+</ul>
+
+<h1 id="upgrading-from-2-x">Upgrading from 2.x</h1>
+
+<p>Please see the Upgrading guide in the 3.0 driver reference documentation.</p>
 
 <h2 id="system-requirements">System Requirements</h2>
 
@@ -1841,76 +1847,6 @@ methods that have been removed in 3.0.</p>
 <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/channels/AsynchronousSocketChannel.html"><code>AsynchronousSocketChannel</code></a> for
 its implementation.  See <a href="/mongo-java-driver/3.1/driver-async/">Async</a> for details on configuring the driver to use <a href="http://netty.io/">Netty</a> instead.</li>
 </ul>
-
-<h2 id="incompatibilities">Incompatibilities</h2>
-
-<p>The following lists the most significant backwards-breaking changes, along with the recommended solutions.</p>
-
-<h3 id="general">General</h3>
-
-<p>The driver now enables host name verification by default for SSL connections.  If you are knowingly using an invalid certificate, or are
-using Java 6 (see above), set the
-<a href="http://api.mongodb.org/java/3.0/com/mongodb/MongoClientOptions.html#isSslInvalidHostNameAllowed--"><code>sslInvalidHostNameAllowed</code></a>
-property to true.</p>
-
-<h3 id="mongoclientoptions">MongoClientOptions</h3>
-
-<p>Providing little practical value,
-the <a href="https://api.mongodb.org/java/2.13/com/mongodb/MongoClientOptions .html#isAutoConnectRetry--"><code>autoConnectRetry</code></a> and
-<a href="https://api.mongodb.org/java/2.13/com/mongodb/MongoClientOptions.html#getMaxAutoConnectRetryTime--"><code>maxAutoConnectRetryTime</code></a>
-properties in
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/MongoClientOptions.html
-"><code>MongoClientOptions</code></a> have been removed from the Java driver to be consistent with other
-MongoDB-supported drivers .</p>
-
-<h4 id="mongoclient">MongoClient</h4>
-
-<p>The <a href="http://api.mongodb.org/java/3.1/?com/mongodb/MongoClient.html
-"><code>MongoClient</code></a> (and
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/ServerAddress.html
-"><code>ServerAddress</code></a>) constructors no longer throw
-<a href="http://docs.oracle.com/javase/8/docs/api/java/net/UnknownHostException.html"><code>UnknownHostException</code></a>: This breaks source but not binary
-compatibility, so re-compilation with 3.0 will only succeed after removing any reference to this exception in catch blocks or method
-throws declarations.</p>
-
-<h3 id="db">DB</h3>
-
-<p>The <a href="https://api.mongodb.org/java/2.13/com/mongodb/DB.html#requestStart--"><code>requestStart</code></a> and
-<a href="https://api.mongodb.org/java/2.13/com/mongodb/DB.html#requestDone--"><code>requestDone</code></a> methods in
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/DB.html
-"><code>DB</code></a> have been removed: These methods have been removed in accordance with the
-<a href="https://github.com/mongodb/specifications/blob/master/source/server-selection/server-selection.rst#what-happened-to-pinning">server selection specification</a>.</p>
-
-<p>The <a href="https://api.mongodb.org/java/2.13/com/mongodb/DB.html#authenticate-java.lang.String-char:A-"><code>authenticate</code></a> method in
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/DB.html
-"><code>DB</code></a> has been replaced with
-<a href="http://api.mongodb.org/java/3.0/com/mongodb/MongoClient.html#MongoClient-java.util.List-java.util.List-"><code>MongoClient</code></a> constructors that
-take <a href="http://api.mongodb.org/java/3.1/?com/mongodb/MongoCredential.html
-"><code>MongoCredential</code></a> instances.</p>
-
-<h3 id="dbcollection">DBCollection</h3>
-
-<p>The <a href="https://api.mongodb.org/java/2.13/com/mongodb/DBCollection.html#ensureIndex-com.mongodb.DBObject-"><code>ensureIndex</code></a> methods in
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/DBCollection.html
-"><code>DBCollection</code></a> have been removed:
-replace with the corresponding
-<a href="https://api.mongodb.org/java/2.13/com/mongodb/DBCollection.html#createIndex-com.mongodb.DBObject-"><code>createIndex</code></a> method.</p>
-
-<h3 id="writeresult">WriteResult</h3>
-
-<p>The <a href="http://api.mongodb.org/java/2.13/com/mongodb/WriteResult.html#getLastError--"><code>getLastError</code></a> method in
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/WriteResult.html
-"><code>WriteResult</code></a> has been removed: this method does not work reliably in
-the 2.x series and there is no way to make work reliably, so it has been removed.  Replace with use of an acknowledged
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/WriteConcern.html
-"><code>WriteConcern</code></a> when executing the write operation.</p>
-
-<h3 id="dbref">DBRef</h3>
-
-<p>The <a href="https://api.mongodb.org/java/2.13/com/mongodb/DBRefBase.html#fetch--"><code>fetch</code></a> method in
-<a href="http://api.mongodb.org/java/3.1/?com/mongodb/DBRef.html
-"><code>DBRef</code></a> has been removed: use the
-<a href="https://api.mongodb.org/java/3.0/com/mongodb/DBCollection.html#findOne-java.lang.Object-"><code>findOne</code></a> method instead.</p>
 
 
 
@@ -1932,21 +1868,10 @@ the 2.x series and there is no way to make work reliably, so it has been removed
     <span class="toc-header">On this page</span>
     <nav id="TableOfContents">
 <ul>
-<li><a href="#upgrading-to-3-0">Upgrading to 3.0</a>
+<li><a href="#upgrading-from-3-0-x">Upgrading from 3.0.x</a></li>
+<li><a href="#upgrading-from-2-x">Upgrading from 2.x</a>
 <ul>
 <li><a href="#system-requirements">System Requirements</a></li>
-<li><a href="#incompatibilities">Incompatibilities</a>
-<ul>
-<li><a href="#general">General</a></li>
-<li><a href="#mongoclientoptions">MongoClientOptions</a>
-<ul>
-<li><a href="#mongoclient">MongoClient</a></li>
-</ul></li>
-<li><a href="#db">DB</a></li>
-<li><a href="#dbcollection">DBCollection</a></li>
-<li><a href="#writeresult">WriteResult</a></li>
-<li><a href="#dbref">DBRef</a></li>
-</ul></li>
 </ul></li>
 </ul>
 </nav>

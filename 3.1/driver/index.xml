@@ -728,14 +728,15 @@ MongoClient client = new MongoClient(uri);
       <guid>/mongo-java-driver/3.1/driver/reference/management/monitoring/</guid>
       <description>
 
-&lt;h1 id=&#34;monitoring&#34;&gt;Monitoring&lt;/h1&gt;
+&lt;h1 id=&#34;jmx-monitoring&#34;&gt;JMX Monitoring&lt;/h1&gt;
 
 &lt;p&gt;The driver uses &lt;a href=&#34;http://docs.oracle.com/javase/8/docs/technotes/guides/jmx/&#34;&gt;JMX&lt;/a&gt; to create
 &lt;a href=&#34;http://docs.oracle.com/javase/tutorial/jmx/mbeans/mxbeans.html&#34;&gt;MXBeans&lt;/a&gt; that allow an
 application or end user to monitor various aspects of the driver.&lt;/p&gt;
 
 &lt;p&gt;The driver creates MXBean instances of a single type:
-&lt;a href=&#34;http://api.mongodb.org/java/3.0/com/mongodb/management/ConnectionPoolStatisticsMBean.html&#34;&gt;ConnectionPoolStatisticsMBean&lt;/a&gt;.
+&lt;a href=&#34;http://api.mongodb.org/java/3.1/?com/mongodb/management/ConnectionPoolStatisticsMBean.html
+&#34;&gt;ConnectionPoolStatisticsMBean&lt;/a&gt;.
  The driver registers one &lt;code&gt;ConnectionPoolStatisticsMBean&lt;/code&gt; instance per each server it connects to. For example, in the case of a replica
  set, the driver creates an instance per each non-hidden member of the replica set.&lt;/p&gt;
 
@@ -754,6 +755,67 @@ application has multiple &lt;code&gt;MongoClient&lt;/code&gt; instances connecte
 &lt;li&gt;&lt;code&gt;waitQueueSize&lt;/code&gt;: the current size of the wait queue for a connection from this pool&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;checkedOutCount&lt;/code&gt;: the current count of connections that are currently in use&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h1 id=&#34;command-monitoring&#34;&gt;Command Monitoring&lt;/h1&gt;
+
+&lt;p&gt;The driver implements the
+&lt;a href=&#34;https://github.com/mongodb/specifications/blob/master/source/command-monitoring/command-monitoring.rst&#34;&gt;command monitoring specification&lt;/a&gt;,
+which allows an application to attach its own event listeners that are notified when commands are started and when they sucessfully
+completed or fail.&lt;/p&gt;
+
+&lt;p&gt;Command listeners are registered individually for each instance of &lt;code&gt;MongoClient&lt;/code&gt; by configuring  &lt;code&gt;MongoClientOptions&lt;/code&gt; with one or more
+instances of a class that implements the &lt;a href=&#34;http://api.mongodb.org/java/3.1/?com/mongodb/event/CommandListener.html
+&#34;&gt;&lt;code&gt;CommandListener&lt;/code&gt;&lt;/a&gt; interface.   Consider
+the following, obviously simplistic, implementation of the &lt;code&gt;CommandListener&lt;/code&gt; interface:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TestCommandListener implements CommandListener {                        
+    @Override                                                                                                        
+    public void commandStarted(final CommandStartedEvent event) {                                                    
+        System.out.println(String.format(&amp;quot;Sent command &#39;%s:%s&#39; with id %s to database &#39;%s&#39; &amp;quot;                         
+                                         + &amp;quot;on connection &#39;%s&#39; to server &#39;%s&#39;&amp;quot;,                                      
+                                         event.getCommandName(),                                                     
+                                         event.getCommand().get(event.getCommandName()),                             
+                                         event.getRequestId(),                                                       
+                                         event.getDatabaseName(),                                                    
+                                         event.getConnectionDescription()                                            
+                                              .getConnectionId(),                                                    
+                                         event.getConnectionDescription().getServerAddress()));                      
+    }                                                                                                                
+                                                                                                                     
+    @Override                                                                                                        
+    public void commandSucceeded(final CommandSucceededEvent event) {                                                
+        System.out.println(String.format(&amp;quot;Successfully executed command &#39;%s&#39; with id %s &amp;quot;                            
+                                         + &amp;quot;on connection &#39;%s&#39; to server &#39;%s&#39;&amp;quot;,                                      
+                                         event.getCommandName(),                                                     
+                                         event.getRequestId(),                                                       
+                                         event.getConnectionDescription()                                            
+                                              .getConnectionId(),                                                    
+                                         event.getConnectionDescription().getServerAddress()));                      
+    }                                                                                                                
+                                                                                                                     
+    @Override                                                                                                        
+    public void commandFailed(final CommandFailedEvent event) {                                                      
+        System.out.println(String.format(&amp;quot;Failed execution of command &#39;%s&#39; with id %s &amp;quot;                              
+                                         + &amp;quot;on connection &#39;%s&#39; to server &#39;%s&#39; with exception &#39;%s&#39;&amp;quot;,                  
+                                         event.getCommandName(),                                                     
+                                         event.getRequestId(),                                                       
+                                         event.getConnectionDescription()                                            
+                                              .getConnectionId(),                                                    
+                                         event.getConnectionDescription().getServerAddress(),                        
+                                         event.getThrowable()));                                                     
+    }                                                                                                                
+}                                                                                                                            
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and an instance of &lt;code&gt;MongoClientOptions&lt;/code&gt; configured with an instance of &lt;code&gt;TestCommandListener&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;MongoClientOptions options = MongoClientOptions.builder()                            
+                                               .addCommandListener(new TestCommandListener())  
+                                               .build();                             
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A &lt;code&gt;MongoClient&lt;/code&gt; configured with these options will print a message to &lt;code&gt;System.out&lt;/code&gt; before sending each command to a MongoDB server, and
+another message upon either successful completion or failure of each command.&lt;/p&gt;
 </description>
     </item>
     
@@ -1028,7 +1090,8 @@ Highest scoring document: { &amp;quot;_id&amp;quot; : 1, &amp;quot;content&amp;q
 
 &lt;p&gt;While not all commands have a specific helper, however you can run any &lt;a href=&#34;http://docs.mongodb.org/manual//reference/command
 &#34;&gt;command&lt;/a&gt;
-by using the &lt;a href=&#34;http://api.mongodb.org/java/3.0/?com/mongodb/client/MongoDatabase.html#runCommand-org.bson.conversions.Bson-com.mongodb.ReadPreference-&#34;&gt;&lt;code&gt;runCommand()&lt;/code&gt;&lt;/a&gt; method.  Here we call the &lt;a href=&#34;{{ docsref &amp;quot;reference/command/buildInfo&amp;quot; }}&#34;&gt;buildInfo&lt;/a&gt; command:&lt;/p&gt;
+by using the &lt;a href=&#34;http://api.mongodb.org/java/3.1/?com/mongodb/client/MongoDatabase.html#runCommand-org.bson.conversions.Bson-com.mongodb.ReadPreference-&#34;&gt;&lt;code&gt;runCommand()&lt;/code&gt;&lt;/a&gt;
+method.  Here we call the &lt;a href=&#34;{{ docsref &amp;quot;reference/command/buildInfo&amp;quot; }}&#34;&gt;buildInfo&lt;/a&gt; command:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Document buildInfo = database.runCommand(new Document(&amp;quot;buildInfo&amp;quot;, 1));
 System.out.println(buildInfo);
@@ -1106,43 +1169,29 @@ jar (described below) instead.&lt;/p&gt;
     &amp;lt;dependency&amp;gt;
         &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/groupId&amp;gt;
         &amp;lt;artifactId&amp;gt;mongodb-driver&amp;lt;/artifactId&amp;gt;
-        &amp;lt;version&amp;gt;3.1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+        &amp;lt;version&amp;gt;3.1.0-rc0&amp;lt;/version&amp;gt;
     &amp;lt;/dependency&amp;gt;
 &amp;lt;/dependencies&amp;gt;
-&amp;lt;repositories&amp;gt;
-    &amp;lt;repository&amp;gt;
-        &amp;lt;id&amp;gt;sonatype-snapshots&amp;lt;/id&amp;gt;
-        &amp;lt;name&amp;gt;Sontatype Snapshots&amp;lt;/name&amp;gt;
-        &amp;lt;url&amp;gt;https://oss.sonatype.org/content/repositories/snapshots&amp;lt;/url&amp;gt;
-        &amp;lt;snapshots&amp;gt;
-            &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
-        &amp;lt;/snapshots&amp;gt;
-    &amp;lt;/repository&amp;gt;
-&amp;lt;/repositories&amp;gt;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;gradle hidden&#34;&gt;
 &lt;pre&gt;&lt;code&gt;
   dependencies {
-      compile &#39;org.mongodb:mongodb-driver:3.1.0-SNAPSHOT&#39;
-  }
-  repositories {
-    maven {
-      url &#39;https://oss.sonatype.org/content/repositories/snapshots&#39;
-    }
+      compile &#39;org.mongodb:mongodb-driver:3.1.0-rc0&#39;
   }
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;downloadInfo small&#34;&gt;
     &lt;p&gt;You can also download the jars
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/mongodb-driver/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/mongodb-driver/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
         from sonatype.&lt;/a&gt;&lt;/p&gt;
     
     &lt;p&gt;
         &lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;mongodb-driver&lt;/code&gt; requires the following dependencies:
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/bson/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;bson&lt;/code&gt;&lt;/a&gt; and
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/mongodb-driver-core/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;mongodb-driver-core&lt;/code&gt;&lt;/a&gt;
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/bson/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;bson&lt;/code&gt;&lt;/a&gt; and
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/mongodb-driver-core/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;mongodb-driver-core&lt;/code&gt;&lt;/a&gt;
     &lt;/p&gt;
     
 &lt;/section&gt;
@@ -1169,37 +1218,23 @@ jar (described below) instead.&lt;/p&gt;
     &amp;lt;dependency&amp;gt;
         &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/groupId&amp;gt;
         &amp;lt;artifactId&amp;gt;mongo-java-driver&amp;lt;/artifactId&amp;gt;
-        &amp;lt;version&amp;gt;3.1.0-SNAPSHOT&amp;lt;/version&amp;gt;
+        &amp;lt;version&amp;gt;3.1.0-rc0&amp;lt;/version&amp;gt;
     &amp;lt;/dependency&amp;gt;
 &amp;lt;/dependencies&amp;gt;
-&amp;lt;repositories&amp;gt;
-    &amp;lt;repository&amp;gt;
-        &amp;lt;id&amp;gt;sonatype-snapshots&amp;lt;/id&amp;gt;
-        &amp;lt;name&amp;gt;Sontatype Snapshots&amp;lt;/name&amp;gt;
-        &amp;lt;url&amp;gt;https://oss.sonatype.org/content/repositories/snapshots&amp;lt;/url&amp;gt;
-        &amp;lt;snapshots&amp;gt;
-            &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
-        &amp;lt;/snapshots&amp;gt;
-    &amp;lt;/repository&amp;gt;
-&amp;lt;/repositories&amp;gt;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;gradle hidden&#34;&gt;
 &lt;pre&gt;&lt;code&gt;
   dependencies {
-      compile &#39;org.mongodb:mongo-java-driver:3.1.0-SNAPSHOT&#39;
-  }
-  repositories {
-    maven {
-      url &#39;https://oss.sonatype.org/content/repositories/snapshots&#39;
-    }
+      compile &#39;org.mongodb:mongo-java-driver:3.1.0-rc0&#39;
   }
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section class=&#34;downloadInfo small&#34;&gt;
     &lt;p&gt;You can also download the jars
-        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/mongo-java-driver/3.1.0-SNAPSHOT&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
+        &lt;a href=&#34;https://oss.sonatype.org/content/repositories/releases/org/mongodb/mongo-java-driver/3.1.0-rc0&#34; target=&#34;_blank&#34;&gt;directly&lt;/a&gt;
         from sonatype.&lt;/a&gt;&lt;/p&gt;
     
 &lt;/section&gt;
@@ -1684,7 +1719,7 @@ collection.bulkWrite(
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 
 &lt;p&gt;The reference documentation for the Java driver focuses on high-level documentation and use-cases. The Javadoc-generated API reference is
-&lt;a href=&#34;http://api.mongodb.org/java/3.0/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;http://api.mongodb.org/java/3.1/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;/mongo-java-driver/3.1/mongo-java-driver/3.1/driver/reference/connecting/&#34;&gt;Connecting&lt;/a&gt;: Documentation of the driver&amp;rsquo;s support for connecting to MongoDB servers&lt;/li&gt;
